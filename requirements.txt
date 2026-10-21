@@ -1,0 +1,19 @@
+# Python 3.12. Not pip-installable: schrodinger (licensed Schrodinger suite),
+# transformers.models.esmc (ESM-C fork of transformers, installed from source).
+torch==2.7.1
+transformers==4.52.4
+safetensors==0.5.3
+huggingface_hub==0.33.0
+numpy==2.0.2
+pandas==2.2.3
+scipy==1.15.1
+scikit-learn==1.6.1
+matplotlib==3.10.0
+PyYAML==6.0.2
+requests==2.32.5
+anthropic==0.67.0
+hdbscan==0.8.44
+umap-learn==0.5.12
+plotly==6.9.0
+py3Dmol==2.5.5
+tqdm==4.66.5
