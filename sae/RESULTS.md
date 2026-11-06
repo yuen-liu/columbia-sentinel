@@ -1161,3 +1161,108 @@ energies of the isolated chains from that geometry). Lower means binds VILIP-1
 better, *not* a more thermostable binder -- that would need folding dG or a
 separately minimised apo state. Do not let "features associated with lower
 energy" become "features that make binders more stable" on a poster.
+
+## Multi-position steering sweep: k does not move the maximum (2026-10-17)
+
+**The headline: steering feature `233` at up to 38 interface positions at once
+does not raise a design's feature maximum any higher than steering one
+position does. The maximum tracks alpha alone, identically at every k. At
+matched total injected magnitude, raising k strictly *dilutes* the effect. The
+`k` axis buys nothing on the quantity the energy regression is about.**
+
+Ran `06_steer/sweep_multiposition.py` on features 233, 4657, 6073, 10586 --
+60 designs each (41 for 10586), k=1,2,4,8,all, alpha=1,2,4,8x
+`mean_activation_when_active`, `--control-directions random`, 8,840 rows per
+arm. Both arms: `sweep_multiposition.csv` (alpha per position) and
+`sweep_multiposition_split.csv` (`--alpha-split`, alpha/k, total magnitude held
+constant). Numbers below are feature `233`, 2,400 rows per arm.
+Resolved inputs: checkpoint `checkpoints_65k_1_4/run4_natural_mix/best.pt`,
+pool `vilip1_layer23_65k_per_residue`, `interface_features_combined.yaml`,
+`results/run4/feature_stats.csv`.
+
+**1. `design_feature_max_delta` is the knob, not a finding.** For `233`
+(`mean_activation_when_active` = 3.599, natural max ~14.4):
+
+| alpha | alpha abs | max_delta | SD of max_activation | max_pre -> max_post |
+|---|---|---|---|---|
+| 1.0x | 3.60 | 3.544 | +1.70 SD | 14.4 -> 18.0 |
+| 2.0x | 7.20 | 7.100 | +3.41 SD | 14.4 -> 21.5 |
+| 4.0x | 14.40 | 14.214 | +6.83 SD | 14.4 -> 28.7 |
+| 8.0x | 28.79 | 28.441 | +13.67 SD | 14.4 -> 42.9 |
+
+`max_delta` = 0.985 x alpha, with SD 0.092 across all 60 designs, and it is
+**identical to six decimals at k=1, 2, 4, 8 and all**. The maximum moves
+because the injection puts it there, not because the perturbation propagated.
+So this run is *not* the vacuous 2026-09-29 case -- the predictor did move,
+and `design_feature_max_moved` is 1.00 everywhere -- but it moved
+tautologically, and nothing about it is evidence of a compositional effect.
+Note the dose: at 8x the design's maximum is pushed to +13.7 SD on a
+regression fit over an observed SD of 2.08 (-13.5 kcal/mol per SD). Anything
+above ~2x is extrapolating the energy claim far outside its support.
+
+**2. `--alpha-split` shows the k effect is total magnitude, nothing else.**
+Holding total injected magnitude constant, `max_delta` falls as alpha/k, so
+k=8 moves the maximum **8x less** than k=1 at the same budget:
+
+| k | max_delta, 8x unsplit | max_delta, 8x split | frac_aa_changed, 8x unsplit | split |
+|---|---|---|---|---|
+| 1 | 28.441 | 28.441 | 0.250 | 0.250 |
+| 2 | 28.441 | 14.214 | 0.183 | 0.125 |
+| 4 | 28.441 | 7.100 | 0.279 | 0.067 |
+| 8 | 28.441 | 3.544 | 0.306 | 0.052 |
+| all (~38) | 28.441 | 0.758 | 0.423 | 0.021 |
+
+In the unsplit arm `frac_aa_changed` rises with k (0.250 at k=1 to 0.423 at
+k=all); in the split arm that ordering **inverts** (0.250 to 0.021). The
+apparent "k=all beats k=1" is entirely the 38x larger total push. There is no
+compositional claim here, which is exactly what the second arm was for.
+
+**3. The count did not move either.** `233` already fires at 27-61 positions
+per design (median 43.5) -- far more than the 7-21 the script's docstring
+assumed. `n_active_pre` equals `n_active_post` at k=1, 2, 4 and 8, and k=all
+(mean 38.1 positions steered) moves it 43.50 -> 43.53. Steering installed
+nothing new because the top-k sites were already active. The sweep moved
+neither the maximum (except by construction) nor the count.
+
+**4. Random controls are null on the maximum, NOT null on sequence.**
+
+| alpha | max_delta feature | max_delta random | `moved` random | designs with >=1 AA change: feature / random | mean n_aa_changed: feature / random |
+|---|---|---|---|---|---|
+| 1.0x | 3.544 | -0.002 to +0.025 | 0.40-0.57 | 30.3% / 19.3% | 0.60 / 0.30 |
+| 2.0x | 7.100 | -0.041 to +0.011 | 0.42-0.60 | 40.0% / 24.7% | 1.13 / 0.38 |
+| 4.0x | 14.214 | -0.152 to +0.017 | 0.37-0.50 | 50.7% / 35.0% | 2.08 / 0.72 |
+| 8.0x | 28.441 | -0.090 to +0.051 | 0.42-0.55 | 65.3% / 45.3% | 4.07 / 1.35 |
+
+On the maximum the control is clean: random `max_delta` is ~0 at every k and
+alpha and `design_feature_max_moved` is a coin flip (0.37-0.60), so the
+maximum result is the feature direction's. On *sequence* it is not clean: a
+norm-matched random push still changes a residue in 45.3% of designs at 8x
+against the feature's 65.3%. The feature/random ratio on `n_aa_changed` is
+2.0-3.0x, the same order as the 2026-09-27 controlled-injection result that
+~2/3 of apparent steering effect is perturbation magnitude. Also note random
+at k=all, 8x *destroys* active sites (43.5 -> 37.5), which the feature
+direction does not.
+
+**5. Where the MLM argmax turns over.** It is already turning over at 1x:
+30.3% of designs change at least one residue at alpha=1x (mean 0.60
+residues), rising to 65.3% and 4.07 residues at 8x. The earlier
+`inject_feature.py` read of "argmax essentially never changes below ~3.6x"
+was a single-position-per-pass artifact of counting per-site flips; across the
+whole sequence, changes appear at the lowest dose tested. But see 4 -- a third
+to a half of that is reproduced by random vectors.
+
+**What this licenses.** Nothing about the -13.5 kcal/mol per SD energy claim.
+The `k` axis is dead for that purpose: it does not raise the maximum, and at
+matched magnitude it lowers it. The only lever on the maximum is alpha at the
+top-activating position, which is single-position steering -- i.e. the design
+`inject_feature.py` already had -- and by 4-8x it has pushed the predictor to
++7 to +14 SD, outside the range the regression was fit on. **Do not run an
+energy arm off the k axis.** The open question is unchanged from 2026-09-29:
+designs differing substantially in `max_activation` with matched composition,
+and residue-matched controls at non-`233` positions.
+
+**Scope.** Alphas 1-8x only; a 16x arm has not been run, so where the
+extrapolated high-dose curve saturates is unmeasured. Of the 11 annotated
+interface features, only these 4 were swept (the ones `inject_feature.py`
+already ran, to stay comparable to run4), and only `233` is a feature the
+energy regression was fit on.
