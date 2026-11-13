@@ -1,0 +1,11 @@
+{
+  "chosen_layer": 23,
+  "reason": "layer 28 led by only 0.0050 R^2 (<= margin 0.01); prior-work layer 23 retained for Biohub benchmark comparability",
+  "primary_target": "iptm",
+  "argmax_layer": 28,
+  "argmax_r2": 0.030560907710799733,
+  "prefer_margin": 0.01,
+  "n_designs": 1500,
+  "criterion": "ridge CV R^2 from mean-pooled binder embedding",
+  "scope_limit": "interface-contact AUROC criterion NOT run (parser not built); choice is provisional"
+}

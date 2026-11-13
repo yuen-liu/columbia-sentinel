@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "reg3a-sentinel"
+version = "0.1.0"
+description = "Sparse-autoencoder interpretability for AI-designed protein binders"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.10"
+authors = [
+    { name = "Vignesh Karthik" },
+]
+keywords = [
+    "protein-design",
+    "sparse-autoencoder",
+    "interpretability",
+    "protein-language-model",
+    "synthetic-biology",
+    "igem",
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Bio-Informatics",
+]
+dependencies = [
+    "torch>=2.2",
+    "transformers>=5.0",
+    "numpy>=1.26",
+    "pandas>=2.0",
+    "scikit-learn>=1.3",
+    "biopython>=1.83",
+    "scipy>=1.11",
+    "tqdm>=4.66",
+]
+
+[project.urls]
+Repository = "https://github.com/vigkart/reg3a-binder-design"
+
+[project.scripts]
+sentinel = "sentinel.cli:main"
+
+[tool.setuptools]
+packages = ["sentinel"]

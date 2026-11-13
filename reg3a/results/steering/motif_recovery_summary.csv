@@ -1,0 +1,16 @@
+direction,alpha,mean_delta_recovery,mean_delta_p_native,mean_feature_act,n,is_feature
+feature,20.0,0.1333,-0.0089,17.3427,15,True
+feature,60.0,-1.4667,-0.0932,49.8633,15,True
+feature,150.0,-2.2667,-0.1522,123.0333,15,True
+other_feat,20.0,-0.2,-0.0088,2.8047,15,False
+other_feat,60.0,-0.4,-0.0874,2.8933,15,False
+other_feat,150.0,-2.6,-0.1803,3.114,15,False
+random0,20.0,-0.2667,-0.0099,2.8553,15,False
+random0,60.0,-0.7333,-0.0905,3.1193,15,False
+random0,150.0,-2.8,-0.1635,2.912,15,False
+random1,20.0,-0.2,-0.027,2.6187,15,False
+random1,60.0,-0.8667,-0.1074,2.3353,15,False
+random1,150.0,-2.8667,-0.1931,0.6453,15,False
+random2,20.0,-0.2,-0.0305,2.6807,15,False
+random2,60.0,-0.9333,-0.1211,2.6,15,False
+random2,150.0,-2.8,-0.1903,0.3593,15,False
