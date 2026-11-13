@@ -1,0 +1,26 @@
+{
+  "features": [
+    14364,
+    2672,
+    16079,
+    15472,
+    9456
+  ],
+  "alphas": [
+    0.0,
+    5.0,
+    10.0,
+    15.0,
+    20.0,
+    30.0
+  ],
+  "designs_per_feature": 3,
+  "span_before": 2,
+  "span_after": 5,
+  "n_random": 3,
+  "layer": 23,
+  "hook_index": 22,
+  "scale": 0.09046210353824212,
+  "paired_input": true,
+  "n_conditions": 390
+}

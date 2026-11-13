@@ -1,0 +1,20 @@
+{
+  "layers": [
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29
+  ],
+  "mask_mode": "span",
+  "target_quantile": 0.99,
+  "n_cases": 96,
+  "cross_inject": true,
+  "mean_rank": 13.947916666666666,
+  "chance_rank": 16.5,
+  "wilcoxon_p": 0.004868357026021669,
+  "delta_vs_others": 0.005627083333333332,
+  "delta_vs_others_p": 0.14407427679380228
+}

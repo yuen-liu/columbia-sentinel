@@ -1,0 +1,25 @@
+# Virtualenv
+.venv/
+
+# Generated activations (4.4 GB) -- rebuild with 01_embed/embed_esmc_paired.py
+data/
+
+# Trained checkpoints -- rebuild with 03_train/train.py
+03_train/checkpoints/
+
+# Run artifacts
+results/logs/
+results/STATUS.txt
+
+# Generated manifest (17 MB) -- rebuild in ~30s with 00_data/build_manifest.py
+results/manifest_combined.csv
+
+# Python
+__pycache__/
+*.pyc
+
+# Archived planning doc (superseded; scope being revised)
+.plan-archive.md
+
+# Interface geometry cache (regenerable; ~large pickle)
+results/interface/iface_cache_*.pkl

@@ -1,0 +1,25 @@
+{
+  "feature": 14364,
+  "design_id": "pres_5g03jOnAMI946B8a1o9J",
+  "binder": "SGTAKVEVTTPDGKVITLTVHIDDTIGEVKEIAQAMTGVPPENIEITFKGRKLKDEQTLADAGVKDGDTLVAKVKPG",
+  "positions": [
+    36
+  ],
+  "alphas": [
+    0.0,
+    20.0,
+    60.0,
+    150.0
+  ],
+  "scale": 0.09046210353824212,
+  "layer": 23,
+  "hook_index": 22,
+  "n_blocks": 30,
+  "directions": [
+    "feature",
+    "other_feat6172",
+    "random0",
+    "random1"
+  ],
+  "paired_input": true
+}
